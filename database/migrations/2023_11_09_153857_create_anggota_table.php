@@ -11,14 +11,22 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('pelatih', function (Blueprint $table) {
+    Schema::create('anggota', function (Blueprint $table) {
       $table->id();
       $table->unsignedBigInteger('cabor_id');
-      $table->string('nama_pelatih');
-      $table->string('nomor_sertifikasi');
-      $table->string('foto_sertifikasi');
+      $table->string('nama');
       $table->string('tempat_lahir');
       $table->date('tanggal_lahir');
+
+      // untuk pelatih
+      $table->string('nomor_sertifikasi');
+      $table->string('foto_sertifikasi');
+
+      // untuk atlet
+      $table->string('nomor_kta');
+      $table->string('sekolah_pt');
+
+      $table->enum('jenis', ['pelatih', 'atlet']);
       $table->timestamps();
 
       $table->foreign('cabor_id')->references('id')->on('cabor')->onDelete('cascade')->onUpdate('cascade');
@@ -30,6 +38,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('pelatih');
+    Schema::dropIfExists('anggota');
   }
 };

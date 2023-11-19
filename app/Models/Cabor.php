@@ -26,23 +26,18 @@ class Cabor extends Model
     return $this->hasMany(Inventaris::class, 'cabor_id', 'id');
   }
 
-  public function pelatih()
+  public function anggota()
   {
-    return $this->hasMany(Pelatih::class, 'cabor_id', 'id');
-  }
-
-  public function atlet()
-  {
-    return $this->hasMany(Atlet::class, 'cabor_id', 'id');
+    return $this->hasMany(Anggota::class, 'cabor_id', 'id');
   }
 
   public function prestasi()
   {
-    $this->belongsTo(Prestasi::class, 'cabor_id', 'id');
+    return $this->belongsTo(Prestasi::class, 'cabor_id', 'id');
   }
 
   public function program()
   {
-    $this->belongsTo(Program::class, 'cabor_id', 'id');
+    return $this->belongsTo(Program::class, 'cabor_id', 'id');
   }
 }

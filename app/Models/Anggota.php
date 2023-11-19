@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Atlet extends Model
+class Anggota extends Model
 {
   use HasFactory;
-  protected $table = 'atlet';
+  protected $table = 'anggota';
   protected $guarded = ['id'];
 
   public function cabor()
   {
-    $this->belongsTo(Cabor::class, 'cabor_id', 'id');
+    return $this->belongsTo(Cabor::class, 'cabor_id', 'id');
   }
 }

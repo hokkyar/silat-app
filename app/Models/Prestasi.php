@@ -13,6 +13,6 @@ class Prestasi extends Model
 
   public function cabor()
   {
-    $this->belongsTo(Cabor::class, 'cabor_id', 'id');
+    return $this->belongsTo(Cabor::class, 'cabor_id', 'id');
   }
 }

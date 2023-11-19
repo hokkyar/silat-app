@@ -9,6 +9,7 @@ use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\StrukturController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,13 +28,20 @@ Route::get('/login', [AuthController::class, 'login_pages'])->name('page.login')
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/admin', [DashboardController::class, 'admin_dashboard'])->name('page.admin');
-Route::resource('/admin/cabor', CaborController::class);
-Route::resource('/admin/pengurus', PengurusController::class);
+Route::group(['middleware' => 'is_auth'], function () {
 
-Route::get('/pengurus', [DashboardController::class, 'pengurus_dashboard'])->name('page.pengurus');
-Route::resource('/pengurus/struktur', PengurusController::class);
-Route::resource('/pengurus/kelola/anggota', AnggotaController::class);
-Route::resource('/pengurus/kelola/program', ProgramController::class);
-Route::resource('/pengurus/kelola/prestasi', PrestasiController::class);
-Route::resource('/pengurus/kelola/inventaris', InventarisController::class);
+  Route::group(['middleware' => 'is_admin'], function () {
+    Route::get('/admin', [DashboardController::class, 'admin_dashboard'])->name('page.admin');
+    Route::resource('/admin/cabor', CaborController::class);
+    Route::resource('/admin/pengurus', PengurusController::class);
+  });
+
+  Route::group(['middleware' => 'is_pengurus'], function () {
+    Route::get('/pengurus', [DashboardController::class, 'pengurus_dashboard'])->name('page.pengurus');
+    Route::resource('/pengurus/struktur', StrukturController::class);
+    Route::resource('/pengurus/kelola/anggota', AnggotaController::class);
+    Route::resource('/pengurus/kelola/program', ProgramController::class);
+    Route::resource('/pengurus/kelola/prestasi', PrestasiController::class);
+    Route::resource('/pengurus/kelola/inventaris', InventarisController::class);
+  });
+});

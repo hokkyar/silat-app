@@ -2,63 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   */
   public function index()
   {
-    return view('pengurus.anggota.index');
+    $all_anggota = Anggota::all()->where('cabor_id', session('cabor')->id);
+    dd($all_anggota);
+    return view('pengurus.anggota.index', compact('all_anggota'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
+  public function create(Request $request)
   {
-    //
+    if (strtolower($request->query('j')) == 'atlet') {
+      dd('tambah atlet');
+    }
+    if (strtolower($request->query('j')) == 'pelatih') {
+      dd('tambah pelatih');
+    }
+    abort(404);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   */
   public function store(Request $request)
   {
-    //
+    // $anggota = new Anggota();
+    // if (strtolower($request->query('j')) == 'atlet') {
+    //   $request->validate([]);   
+    // }
+    // if (strtolower($request->query('j')) == 'pelatih') {
+    //   $request->validate([]);
+    // }
+    // $anggota->save();
+    // return redirect('/pengurus/kelola/anggota')->with('success', 'Data berhasil ditambahkan');
   }
 
-  /**
-   * Display the specified resource.
-   */
   public function show(string $id)
   {
-    //
+    abort(404);
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
   public function edit(string $id)
   {
-    //
+    // $anggota = Anggota::find($id);
+    // if($anggota->jenis == 'atlet'){
+    //   return view('pengurus.anggota.edit-atlet');
+    // }
+
+    // if($anggota->jenis == 'pelatih'){
+    //   return view('pengurus.anggota.edit-pelatih');
+    // }
+
+    // abort(404);
   }
 
-  /**
-   * Update the specified resource in storage.
-   */
   public function update(Request $request, string $id)
   {
     //
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
   public function destroy(string $id)
   {
-    //
+    // Anggota::destroy($id);
+    // return redirect('/pengurus/kelola/anggota')->with('success', 'Data berhasil dihapus');
   }
 }

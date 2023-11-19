@@ -2,63 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Struktur;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class StrukturController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   */
   public function index()
   {
-    return view('pengurus.struktur.index');
+    confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
+    $all_struktur = Struktur::all()->where('cabor_id', session('cabor')->id);
+    return view('pengurus.struktur.index', compact('all_struktur'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
   public function create()
   {
-    //
+    return view('pengurus.struktur.create');
   }
 
-  /**
-   * Store a newly created resource in storage.
-   */
   public function store(Request $request)
   {
-    //
+    $request->validate([
+      'nama_pengurus' => 'required',
+      'jabatan' => 'required'
+    ]);
+    Struktur::create([
+      'nama_pengurus' => Str::title($request->nama_pengurus),
+      'jabatan' => Str::title($request->jabatan),
+      'cabor_id' => session('cabor')->id,
+    ]);
+    return redirect('/pengurus/struktur')->with('success', 'Data berhasil ditambahkan');
   }
 
-  /**
-   * Display the specified resource.
-   */
   public function show(string $id)
   {
-    //
+    abort(404);
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
   public function edit(string $id)
   {
-    //
+    $struktur = Struktur::find($id);
+    return view('pengurus.struktur.edit', compact('struktur'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   */
   public function update(Request $request, string $id)
   {
-    //
+    $request->validate([
+      'nama_pengurus' => 'required',
+      'jabatan' => 'required'
+    ]);
+    Struktur::where('id', $id)->update([
+      'nama_pengurus' => Str::title($request->nama_pengurus),
+      'jabatan' => Str::title($request->jabatan),
+    ]);
+    return redirect('/pengurus/struktur')->with('success', 'Data berhasil diupdate');
   }
 
-  /**
-   * Remove the specified resource from storage.
-   */
   public function destroy(string $id)
   {
-    //
+    Struktur::destroy($id);
+    return redirect('/pengurus/struktur')->with('success', 'Data berhasil dihapus');
   }
 }

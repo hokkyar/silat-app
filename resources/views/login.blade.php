@@ -16,11 +16,13 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="POST" action="#" class="needs-validation" novalidate="">
+                            <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                                @csrf
+                                @method('POST')
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     <input id="username" type="text" class="form-control" name="username" tabindex="1"
-                                        required autofocus>
+                                        required autofocus autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
@@ -28,7 +30,7 @@
                                         <label for="password" class="control-label">Password</label>
                                     </div>
                                     <input id="password" type="password" class="form-control" name="password"
-                                        tabindex="2" required>
+                                        tabindex="2" required autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
