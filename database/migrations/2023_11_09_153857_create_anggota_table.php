@@ -19,12 +19,12 @@ return new class extends Migration
       $table->date('tanggal_lahir');
 
       // untuk pelatih
-      $table->string('nomor_sertifikasi');
-      $table->string('foto_sertifikasi');
+      $table->string('nomor_sertifikasi')->nullable();
+      $table->string('foto_sertifikasi')->nullable();
 
       // untuk atlet
-      $table->string('nomor_kta');
-      $table->string('sekolah_pt');
+      $table->string('nomor_kta')->nullable();
+      $table->string('sekolah_pt')->nullable();
 
       $table->enum('jenis', ['pelatih', 'atlet']);
       $table->timestamps();
