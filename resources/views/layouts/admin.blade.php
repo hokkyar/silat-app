@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'SILAT - Admin')
+@section('title', 'SIMLAT - Admin')
 @section('body')
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
             <img alt="image" src="https://www.konibuleleng.or.id/assets/logo.ico" class="rounded-circle mr-2 mb-1"
                 width="27">
-            <a href="index.html" class="navbar-brand sidebar-gone-hide">SILAT</a>
+            <a href="index.html" class="navbar-brand sidebar-gone-hide">SIMLAT</a>
             <div class="navbar-nav">
                 <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
             </div>
@@ -55,7 +55,7 @@
         <footer class="main-footer">
             <div class="footer-left">
                 Copyright ©
-                SILAT
+                SIMLAT
                 <script>
                     document.write(new Date().getFullYear());
                 </script>

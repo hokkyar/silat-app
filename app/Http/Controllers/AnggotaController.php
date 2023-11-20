@@ -11,7 +11,9 @@ class AnggotaController extends Controller
   public function index()
   {
     confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
-    $all_anggota = Anggota::all()->where('cabor_id', session('cabor')->id);
+    $all_anggota = Anggota::orderBy('jenis', 'ASC')
+      ->where('cabor_id', session('cabor')->id)
+      ->get();
     return view('pengurus.anggota.index', compact('all_anggota'));
   }
 
@@ -64,7 +66,7 @@ class AnggotaController extends Controller
     }
 
     $anggota->save();
-    return redirect('/pengurus/kelola/anggota')->with('success', 'Data berhasil ditambahkan');
+    return redirect('/pengurus/kelola/anggota')->with('toast_success', 'Data berhasil ditambahkan');
   }
 
   public function show(string $id)
@@ -126,7 +128,7 @@ class AnggotaController extends Controller
     }
 
     $anggota->save();
-    return redirect('/pengurus/kelola/anggota')->with('success', 'Data berhasil diupdate');
+    return redirect('/pengurus/kelola/anggota')->with('toast_success', 'Data berhasil diupdate');
   }
 
   public function destroy(string $id)
@@ -136,6 +138,6 @@ class AnggotaController extends Controller
       Storage::delete('public/uploads/' . $anggota->foto_sertifikasi);
     }
     Anggota::destroy($id);
-    return redirect('/pengurus/kelola/anggota')->with('success', 'Data berhasil dihapus');
+    return redirect('/pengurus/kelola/anggota')->with('toast_success', 'Data berhasil dihapus');
   }
 }

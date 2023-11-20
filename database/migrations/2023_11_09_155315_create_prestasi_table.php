@@ -15,10 +15,11 @@ return new class extends Migration
       $table->id();
       $table->unsignedBigInteger('cabor_id');
       $table->string('nama_kejuaraan');
-      $table->string('sertifikat'); // apanya?? gambar/nomor?? 
-      $table->string('prestasi'); // prestasi/medali?
-      $table->string('tahun');
-      $table->string('foto');
+      $table->date('tanggal');
+      $table->string('sertifikat')->nullable(); // apanya?? gambar/nomor?? 
+      $table->string('prestasi')->nullable(); // prestasi/medali?
+      $table->string('foto')->nullable();
+      $table->text('deskripsi')->nullable();
       $table->timestamps();
 
       $table->foreign('cabor_id')->references('id')->on('cabor')->onDelete('cascade')->onUpdate('cascade');

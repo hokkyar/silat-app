@@ -2,63 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventaris;
 use Illuminate\Http\Request;
 
 class InventarisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+  public function index()
+  {
+    confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
+    $all_inventaris = Inventaris::orderBy('jenis_aset', 'DESC')
+      ->where('cabor_id', session('cabor')->id)
+      ->get();
+    return view('pengurus.inventaris.index', compact('all_inventaris'));
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  public function create()
+  {
+    return view('pengurus.inventaris.create');
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  public function store(Request $request)
+  {
+    $request->validate([
+      'jenis_barang' => 'required',
+      'harga_satuan' => 'required',
+      'tanggal' => 'required',
+      'jumlah' => 'required',
+      'kondisi' => 'required',
+      'jenis_aset' => 'required',
+    ]);
+    Inventaris::create([
+      'cabor_id' => session('cabor')->id,
+      'jenis_barang' => $request->jenis_barang,
+      'harga_satuan' => $request->harga_satuan,
+      'tanggal' => $request->tanggal,
+      'jumlah' => $request->jumlah,
+      'kondisi' => $request->kondisi,
+      'jenis_aset' => $request->jenis_aset,
+      'deskripsi' => $request->deskripsi,
+    ]);
+    return redirect('/pengurus/kelola/inventaris')->with('toast_success', 'Data berhasil ditambahkan');
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+  public function show(string $id)
+  {
+    abort(404);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  public function edit(string $id)
+  {
+    $inventaris = Inventaris::find($id);
+    return view('pengurus.inventaris.edit', compact('inventaris'));
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+  public function update(Request $request, string $id)
+  {
+    $request->validate([
+      'jenis_barang' => 'required',
+      'harga_satuan' => 'required',
+      'tanggal' => 'required',
+      'jumlah' => 'required',
+      'kondisi' => 'required',
+      'jenis_aset' => 'required',
+    ]);
+    Inventaris::where('id', $id)->update([
+      'cabor_id' => session('cabor')->id,
+      'jenis_barang' => $request->jenis_barang,
+      'harga_satuan' => $request->harga_satuan,
+      'tanggal' => $request->tanggal,
+      'jumlah' => $request->jumlah,
+      'kondisi' => $request->kondisi,
+      'jenis_aset' => $request->jenis_aset,
+      'deskripsi' => $request->deskripsi,
+    ]);
+    return redirect('/pengurus/kelola/inventaris')->with('toast_success', 'Data berhasil diupdate');
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  public function destroy(string $id)
+  {
+    Inventaris::destroy($id);
+    return redirect('/pengurus/kelola/inventaris')->with('toast_success', 'Data berhasil dihapus');
+  }
 }

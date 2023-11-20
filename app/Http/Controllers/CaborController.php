@@ -25,7 +25,7 @@ class CaborController extends Controller
       'nama_cabor' => 'required'
     ]);
     Cabor::create($request->all());
-    return redirect('/admin/cabor')->with('success', 'Data berhasil ditambahkan');
+    return redirect('/admin/cabor')->with('toast_success', 'Data berhasil ditambahkan');
   }
 
   public function show()
@@ -45,12 +45,12 @@ class CaborController extends Controller
       'nama_cabor' => 'required'
     ]);
     Cabor::where('id', $id)->update($request->except('_method', '_token'));
-    return redirect('/admin/cabor')->with('success', 'Data berhasil diupdate');
+    return redirect('/admin/cabor')->with('toast_success', 'Data berhasil diupdate');
   }
 
   public function destroy(string $id)
   {
     Cabor::destroy($id);
-    return redirect('/admin/cabor')->with('success', 'Data berhasil dihapus');
+    return redirect('/admin/cabor')->with('toast_success', 'Data berhasil dihapus');
   }
 }

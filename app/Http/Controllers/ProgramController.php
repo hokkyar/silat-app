@@ -2,63 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+  public function index()
+  {
+    confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
+    $all_program = Program::orderBy('jenis', 'DESC')
+      ->where('cabor_id', session('cabor')->id)
+      ->get();
+    return view('pengurus.program.index', compact('all_program'));
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+  public function create()
+  {
+    return view('pengurus.program.create');
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+  public function store(Request $request)
+  {
+    $request->validate([
+      'nama_program' => 'required',
+      'tanggal' => 'required|date',
+      'jenis' => 'required'
+    ]);
+    Program::create([
+      'cabor_id' => session('cabor')->id,
+      'nama_program' => $request->nama_program,
+      'tanggal' => $request->tanggal,
+      'jenis' => $request->jenis,
+      'lokasi' => $request->lokasi,
+      'deskripsi' => $request->deskripsi,
+    ]);
+    return redirect('/pengurus/kelola/program')->with('toast_success', 'Data berhasil ditambahkan');
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+  public function show(string $id)
+  {
+    abort(404);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  public function edit(string $id)
+  {
+    $program = Program::find($id);
+    return view('pengurus.program.edit', compact('program'));
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+  public function update(Request $request, string $id)
+  {
+    $request->validate([
+      'nama_program' => 'required',
+      'tanggal' => 'required|date',
+      'jenis' => 'required'
+    ]);
+    Program::where('id', $id)->update([
+      'nama_program' => $request->nama_program,
+      'tanggal' => $request->tanggal,
+      'jenis' => $request->jenis,
+      'lokasi' => $request->lokasi,
+      'deskripsi' => $request->deskripsi,
+    ]);
+    return redirect('/pengurus/kelola/program')->with('toast_success', 'Data berhasil diupdate');
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+  public function destroy(string $id)
+  {
+    Program::destroy($id);
+    return redirect('/pengurus/kelola/program')->with('toast_success', 'Data berhasil dihapus');
+  }
 }

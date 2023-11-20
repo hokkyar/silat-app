@@ -31,7 +31,7 @@ class StrukturController extends Controller
       'jabatan' => Str::title($request->jabatan),
       'cabor_id' => session('cabor')->id,
     ]);
-    return redirect('/pengurus/struktur')->with('success', 'Data berhasil ditambahkan');
+    return redirect('/pengurus/struktur')->with('toast_success', 'Data berhasil ditambahkan');
   }
 
   public function show(string $id)
@@ -55,12 +55,12 @@ class StrukturController extends Controller
       'nama_pengurus' => Str::title($request->nama_pengurus),
       'jabatan' => Str::title($request->jabatan),
     ]);
-    return redirect('/pengurus/struktur')->with('success', 'Data berhasil diupdate');
+    return redirect('/pengurus/struktur')->with('toast_success', 'Data berhasil diupdate');
   }
 
   public function destroy(string $id)
   {
     Struktur::destroy($id);
-    return redirect('/pengurus/struktur')->with('success', 'Data berhasil dihapus');
+    return redirect('/pengurus/struktur')->with('toast_success', 'Data berhasil dihapus');
   }
 }

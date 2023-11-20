@@ -38,7 +38,7 @@ class PengurusController extends Controller
       'role' => 'pengurus',
       'cabor_id' => $request->cabor_id,
     ]);
-    return redirect('/admin/pengurus')->with('success', 'Data berhasil ditambahkan');
+    return redirect('/admin/pengurus')->with('toast_success', 'Data berhasil ditambahkan');
   }
 
   public function show(string $id)
@@ -74,12 +74,12 @@ class PengurusController extends Controller
       'username' => $request->username,
       'cabor_id' => $request->cabor_id,
     ]);
-    return redirect('/admin/pengurus')->with('success', 'Data berhasil diupdate');
+    return redirect('/admin/pengurus')->with('toast_success', 'Data berhasil diupdate');
   }
 
   public function destroy(string $id)
   {
     User::destroy($id);
-    return redirect('/admin/pengurus')->with('success', 'Data berhasil dihapus');
+    return redirect('/admin/pengurus')->with('toast_success', 'Data berhasil dihapus');
   }
 }

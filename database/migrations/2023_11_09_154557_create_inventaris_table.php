@@ -16,10 +16,11 @@ return new class extends Migration
       $table->unsignedBigInteger('cabor_id');
       $table->string('jenis_barang');
       $table->string('harga_satuan');
-      $table->string('tahun'); // aset habis pakai = bulan/tahun, aset tidak habis pakai = tahun beli
-      $table->string('jumlah'); // aset habis pakai = jumlah kebutuhan, aset tidak habis pakai = jumlah 
+      $table->date('tanggal'); // aset habis pakai = bulan/tahun, aset tidak habis pakai = tahun beli
+      $table->integer('jumlah'); // aset habis pakai = jumlah kebutuhan, aset tidak habis pakai = jumlah 
       $table->string('kondisi');
       $table->enum('jenis_aset', ['habis_pakai', 'tidak_habis_pakai']);
+      $table->text('deskripsi')->nullable();
       $table->timestamps();
 
       $table->foreign('cabor_id')->references('id')->on('cabor')->onDelete('cascade')->onUpdate('cascade');

@@ -2,63 +2,105 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PrestasiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+  public function index()
+  {
+    confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
+    $all_prestasi = Prestasi::where('cabor_id', session('cabor')->id)->get();
+    return view('pengurus.prestasi.index', compact('all_prestasi'));
+  }
+
+  public function create()
+  {
+    return view('pengurus.prestasi.create');
+  }
+
+  public function store(Request $request)
+  {
+    $request->validate([
+      'nama_kejuaraan' => 'required',
+      'tanggal' => 'required',
+    ]);
+
+    $prestasi = new Prestasi();
+    $prestasi->cabor_id = session('cabor')->id;
+    $prestasi->nama_kejuaraan = $request->nama_kejuaraan;
+    $prestasi->tanggal = $request->tanggal;
+    $prestasi->prestasi = $request->prestasi;
+    $prestasi->sertifikat = $request->sertifikat;
+
+    if ($request->file('foto')) {
+      $request->validate([
+        'foto' => 'max:2048',
+      ], [
+        'foto.max' => 'File maksimal berukuran 2MB!'
+      ]);
+
+      $path = $request->file('foto')->store('public/uploads');
+      $prestasi->foto = basename($path);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    $prestasi->deskripsi = $request->deskripsi;
+    $prestasi->save();
+    return redirect('/pengurus/kelola/prestasi')->with('toast_success', 'Data berhasil ditambahkan');
+  }
+
+  public function show(string $id)
+  {
+    abort(404);
+  }
+
+  public function edit(string $id)
+  {
+    $prestasi = Prestasi::find($id);
+    return view('pengurus.prestasi.edit', compact('prestasi'));
+  }
+
+  public function update(Request $request, string $id)
+  {
+    $request->validate([
+      'nama_kejuaraan' => 'required',
+      'tanggal' => 'required',
+    ]);
+
+    $prestasi = Prestasi::find($id);
+    $prestasi->nama_kejuaraan = $request->nama_kejuaraan;
+    $prestasi->tanggal = $request->tanggal;
+    $prestasi->prestasi = $request->prestasi;
+    $prestasi->sertifikat = $request->sertifikat;
+
+    if ($request->file('foto')) {
+      $request->validate([
+        'foto' => 'max:2048',
+      ], [
+        'foto.max' => 'File maksimal berukuran 2MB!'
+      ]);
+
+      if ($prestasi->foto) {
+        Storage::delete('public/uploads/' . $prestasi->foto);
+      }
+
+      $path = $request->file('foto')->store('public/uploads');
+      $prestasi->foto = basename($path);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    $prestasi->deskripsi = $request->deskripsi;
+    $prestasi->save();
+    return redirect('/pengurus/kelola/prestasi')->with('toast_success', 'Data berhasil diupdate');
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+  public function destroy(string $id)
+  {
+    $prestasi = Prestasi::find($id);
+    if ($prestasi->foto) {
+      Storage::delete('public/uploads/' . $prestasi->foto);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    Prestasi::destroy($id);
+    return redirect('/pengurus/kelola/prestasi')->with('toast_success', 'Data berhasil dihapus');
+  }
 }
