@@ -1,14 +1,13 @@
 @extends('layouts.app')
-@section('title', 'SILAT - Login')
+@section('title', 'SIMLAT - Login')
 @section('body')
     <section class="section">
         <div class="container mt-5">
             <div class="row">
                 <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-                    <h5 class="text-center">Sistem Informasi....</h5>
+                    <h5 class="text-center">Sistem Informasi Manajemen Latihan</h5>
                     <div class="login-brand">
-                        <img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="100"
-                            class="shadow-light rounded-circle">
+                        <img src="{{ asset('img/logo-koni.ico') }}" alt="logo" width="100" class="">
                     </div>
                     <div class="card card-primary">
                         <div class="card-header">
@@ -42,7 +41,7 @@
                         </div>
                     </div>
                     <div class="simple-footer">
-                        Copyright &copy; SILAT
+                        Copyright &copy; SIMLAT
                         <script>
                             document.write(new Date().getFullYear())
                         </script>

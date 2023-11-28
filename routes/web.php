@@ -3,7 +3,6 @@
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CaborController;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\PengurusController;
@@ -24,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Controller::class, 'home_page'])->name('page.home');
+Route::get('/', function () {
+  return redirect()->route('page.login');
+});
 Route::get('/login', [AuthController::class, 'login_pages'])->name('page.login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

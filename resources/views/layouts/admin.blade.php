@@ -4,8 +4,7 @@
     <div class="main-wrapper container">
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
-            <img alt="image" src="https://www.konibuleleng.or.id/assets/logo.ico" class="rounded-circle mr-2 mb-1"
-                width="27">
+            <img alt="image" src="{{ asset('img/logo-koni.ico') }}" class="rounded-circle mr-2 mb-1" width="27">
             <a href="index.html" class="navbar-brand sidebar-gone-hide">SIMLAT</a>
             <div class="navbar-nav">
                 <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
@@ -14,7 +13,9 @@
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"
                         aria-expanded="false">
-                        <img alt="image" src="{{ asset('img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
+                        <img alt="image"
+                            src="https://th.bing.com/th/id/OIP.zW0R7waKPw1IOmG3METk6gHaHa?rs=1&pid=ImgDetMain"
+                            class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">
                             Hi, Admin
                         </div>
