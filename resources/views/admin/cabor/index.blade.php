@@ -81,6 +81,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <div class="list-group">
                         <a href="" class="list-group-item list-group-item-action">1. Struktur Organisasi</a>
@@ -89,6 +90,12 @@
                         <a href="" class="list-group-item list-group-item-action">4. Prestasi</a>
                         <a href="" class="list-group-item list-group-item-action">5. Inventaris</a>
                     </div>
+                </div>
+                <a class="btn mx-4" data-toggle="collapse" href="#collapseDeskripsi" role="button">
+                    Tentang Cabor
+                </a>
+                <div class="collapse mx-4 show" id="collapseDeskripsi">
+                    Belum ada deskripsi...
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -105,6 +112,7 @@
                 $(this).attr('href', `/admin/cabor/${data.id}?d=${feature[index]}`);
             });
             $('#nama_cabor').text('Cabor ' + data.nama_cabor);
+            $('#collapseDeskripsi').text(data.desc);
         }
     </script>
 @endsection

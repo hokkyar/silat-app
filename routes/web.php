@@ -38,6 +38,7 @@ Route::group(['middleware' => 'is_auth'], function () {
   });
   Route::group(['middleware' => 'is_pengurus'], function () {
     Route::get('/pengurus', [DashboardController::class, 'pengurus_dashboard'])->name('page.pengurus');
+    Route::put('/pengurus/edit-desc', [DashboardController::class, 'edit_desc'])->name('cabor.desc');
     Route::resource('/pengurus/struktur', StrukturController::class);
     Route::resource('/pengurus/kelola/anggota', AnggotaController::class);
     Route::resource('/pengurus/kelola/program', ProgramController::class);

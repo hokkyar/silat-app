@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('cabor', function (Blueprint $table) {
       $table->id();
       $table->string('nama_cabor');
-      // ..?
+      $table->text('desc')->default('Belum ada deskripsi...');
       $table->timestamps();
     });
   }
