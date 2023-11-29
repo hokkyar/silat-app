@@ -33,11 +33,11 @@ class Cabor extends Model
 
   public function prestasi()
   {
-    return $this->belongsTo(Prestasi::class, 'cabor_id', 'id');
+    return $this->hasMany(Prestasi::class, 'cabor_id', 'id');
   }
 
   public function program()
   {
-    return $this->belongsTo(Program::class, 'cabor_id', 'id');
+    return $this->hasMany(Program::class, 'cabor_id', 'id');
   }
 }

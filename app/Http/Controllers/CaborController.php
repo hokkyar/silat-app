@@ -9,7 +9,7 @@ class CaborController extends Controller
 {
   public function index()
   {
-    confirmDelete('Warning', 'Yakin ingin menghapus data ini?');
+    confirmDelete('Warning', 'Anda yakin? seluruh data mengenai cabor ini akan dihapus');
     $all_cabor = Cabor::all();
     return view('admin.cabor.index', compact('all_cabor'));
   }
@@ -28,8 +28,28 @@ class CaborController extends Controller
     return redirect('/admin/cabor')->with('toast_success', 'Data berhasil ditambahkan');
   }
 
-  public function show()
+  public function show(Request $request, String $caborId)
   {
+    if ($request->query('d') === 'struktur') {
+      $data = Cabor::with('struktur')->where('id', $caborId)->firstOrFail();
+      return view('admin.cabor.show-struktur', compact('data'));
+    }
+    if ($request->query('d') === 'anggota') {
+      $data = Cabor::with('anggota')->where('id', $caborId)->firstOrFail();
+      return view('admin.cabor.show-anggota', compact('data'));
+    }
+    if ($request->query('d') === 'program') {
+      $data = Cabor::with('program')->where('id', $caborId)->firstOrFail();
+      return view('admin.cabor.show-program', compact('data'));
+    }
+    if ($request->query('d') === 'prestasi') {
+      $data = Cabor::with('prestasi')->where('id', $caborId)->firstOrFail();
+      return view('admin.cabor.show-prestasi', compact('data'));
+    }
+    if ($request->query('d') === 'inventaris') {
+      $data = Cabor::with('inventaris')->where('id', $caborId)->firstOrFail();
+      return view('admin.cabor.show-inventaris', compact('data'));
+    }
     abort(404);
   }
 

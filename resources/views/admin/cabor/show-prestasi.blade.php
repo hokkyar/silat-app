@@ -2,23 +2,16 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Kelola Cabor</h1>
+            <h1 class="text-primary">Data Prestasi Cabor {{ Str::title($data->nama_cabor) }}</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active">
                     <a href="/admin">Dashboard</a>
                 </div>
-                <div class="breadcrumb-item">Cabor</div>
+                <div class="breadcrumb-item">Prestasi</div>
             </div>
         </div>
         <div class="section-body">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="text-primary">List Cabor</h4>
-                    <div class="pull-right ml-auto">
-                        <a href="/admin/cabor/create" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Tambah
-                            Data</a>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -28,9 +21,9 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nama Cabor</th>
-                                                <th>Tahun</th>
-                                                <th>Status</th>
+                                                <th>Tanggal</th>
+                                                <th>Nama Kejuaraan</th>
+                                                <th>Prestasi</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -38,26 +31,17 @@
                                             @php
                                                 $i = 1;
                                             @endphp
-                                            @foreach ($all_cabor as $cabor)
+                                            @foreach ($data->prestasi as $prestasi)
                                                 <tr>
                                                     <td>{{ $i++ }}</td>
-                                                    <td>{{ $cabor->nama_cabor }}</td>
-                                                    <td>2023</td>
+                                                    <td>{{ $prestasi->tanggal }}</td>
+                                                    <td>{{ Str::title($prestasi->nama_kejuaraan) }}</td>
+                                                    <td>{{ $prestasi->prestasi }}</td>
                                                     <td>
-                                                        <div class="badge badge-success">Aktif</div>
-                                                    </td>
-                                                    <td>
-                                                        <button onclick="viewData({{ json_encode($cabor) }})"
+                                                        <button onclick="viewData({{ json_encode($prestasi) }})"
                                                             data-toggle="modal" data-target="#exampleModal"
                                                             class="btn btn-primary btn-sm w-25"><i
                                                                 class="fa fa-info-circle"></i></button>
-                                                        <a href="/admin/cabor/{{ $cabor->id }}/edit"
-                                                            class="btn btn-warning btn-sm mx-1 w-25"><i
-                                                                class="fa fa-pen"></i></a>
-                                                        <a data-confirm-delete="true"
-                                                            href="{{ route('cabor.destroy', $cabor->id) }}"
-                                                            class="btn btn-danger btn-sm w-25"><i
-                                                                class="fa fa-trash text-white"></i></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -71,24 +55,16 @@
             </div>
         </div>
     </section>
-
     <div class="modal fade" tabindex="-1" role="dialog" id="exampleModal">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="nama_cabor"></h5>
+                    <h5 class="modal-title">Detail Prestasi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="list-group">
-                        <a href="" class="list-group-item list-group-item-action">1. Struktur Organisasi</a>
-                        <a href="" class="list-group-item list-group-item-action">2. Pelatih dan Atlet</a>
-                        <a href="" class="list-group-item list-group-item-action">3. Program</a>
-                        <a href="" class="list-group-item list-group-item-action">4. Prestasi</a>
-                        <a href="" class="list-group-item list-group-item-action">5. Inventaris</a>
-                    </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -98,13 +74,43 @@
     </div>
 
     <script>
-        const feature = ['struktur', 'anggota', 'program', 'prestasi', 'inventaris'];
-
         function viewData(data) {
-            $('.list-group-item').each(function(index) {
-                $(this).attr('href', `/admin/cabor/${data.id}?d=${feature[index]}`);
-            });
-            $('#nama_cabor').text('Cabor ' + data.nama_cabor);
+            $('.modal-body').empty();
+            const foto = '{{ asset('storage/uploads/') }}' + '/' + data.foto;
+            $('.modal-body').append(`
+              <table style="font-size: 18px;">
+                  <tr>
+                      <td>Nama Kejuaraan</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${data.nama_kejuaraan}</td>
+                  </tr>
+                  <tr>
+                      <td>Tanggal</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${data.tanggal}</td>
+                  </tr>
+                  <tr>
+                      <td>Prestasi</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${data.prestasi}</td>
+                  </tr>
+                  <tr>
+                      <td>Sertifikat</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${data.sertifikat ? data.sertifikat : '-'}</td>
+                  </tr>
+                  <tr>
+                      <td>Deskripsi</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${data.deskripsi ? data.deskripsi : '-'}</td>
+                  </tr>
+                  <tr>
+                      <td>Foto</td>
+                      <td style="padding: 0 10px;">:</td>
+                  </tr>
+              </table>
+              <img class="rounded my-3" style="max-width: 350px;" src="${foto}">
+            `)
         }
     </script>
 @endsection
