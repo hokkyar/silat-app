@@ -4,6 +4,7 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CaborController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\PengurusController;
 use App\Http\Controllers\PrestasiController;
@@ -33,6 +34,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::group(['middleware' => 'is_auth'], function () {
   Route::group(['middleware' => 'is_admin'], function () {
     Route::get('/admin', [DashboardController::class, 'admin_dashboard'])->name('page.admin');
+    Route::get('/admin/download-data/{id}', [DownloadController::class, 'download'])->name('download.data');
     Route::resource('/admin/cabor', CaborController::class);
     Route::resource('/admin/pengurus', PengurusController::class);
   });

@@ -12,6 +12,14 @@
         </div>
         <div class="section-body">
             <div class="card">
+                <div class="card-header">
+                    <div class="pull-right">
+                        <a href="{{ route('download.data', $data->id) . '?d=struktur' }}" class="btn btn-primary btn-md"><i
+                                class="fa fa-file-pdf mx-1"></i>
+                            Download PDF
+                        </a>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
