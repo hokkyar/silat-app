@@ -43,16 +43,40 @@ class AnggotaController extends Controller
 
     if (strtolower($request->query('j')) == 'pelatih') {
       $anggota->jenis = 'pelatih';
-      $anggota->nomor_sertifikasi = $request->nomor_sertifikasi;
-      if ($request->file('foto_sertifikasi')) {
+
+      // nomor sertifikasi
+      $anggota->nomor_sertifikasi = implode(', ', [
+        $request->nomor_sertifikasi_1 ?? null,
+        $request->nomor_sertifikasi_2 ?? null,
+        $request->nomor_sertifikasi_3 ?? null,
+      ]);
+
+      // foto sertifikasi
+      $path_1 = 'https://th.bing.com/th/id/OIP.InM3BOFnXhf_eK3RNnyLlwAAAA?rs=1&pid=ImgDetMain';
+      $path_2 = 'https://th.bing.com/th/id/OIP.InM3BOFnXhf_eK3RNnyLlwAAAA?rs=1&pid=ImgDetMain';
+      $path_3 = 'https://th.bing.com/th/id/OIP.InM3BOFnXhf_eK3RNnyLlwAAAA?rs=1&pid=ImgDetMain';
+      if ($request->file('foto_sertifikasi_1') || $request->file('foto_sertifikasi_2') || $request->file('foto_sertifikasi_3')) {
         $request->validate([
-          'foto_sertifikasi' => 'max:2048',
+          'foto_sertifikasi_1' => 'max:2048',
+          'foto_sertifikasi_2' => 'max:2048',
+          'foto_sertifikasi_3' => 'max:2048',
         ], [
-          'foto_sertifikasi.max' => 'File maksimal berukuran 2MB!'
+          'foto_sertifikasi_1.max' => 'File maksimal berukuran 2MB!',
+          'foto_sertifikasi_2.max' => 'File maksimal berukuran 2MB!',
+          'foto_sertifikasi_3.max' => 'File maksimal berukuran 2MB!',
         ]);
-        $path = $request->file('foto_sertifikasi')->store('public/uploads');
-        $anggota->foto_sertifikasi = basename($path);
+        if ($request->file('foto_sertifikasi_1')) {
+          $path_1 = basename($request->file('foto_sertifikasi_1')->store('public/uploads'));
+        }
+        if ($request->file('foto_sertifikasi_2')) {
+          $path_2 = basename($request->file('foto_sertifikasi_2')->store('public/uploads'));
+        }
+        if ($request->file('foto_sertifikasi_3')) {
+          $path_3 = basename($request->file('foto_sertifikasi_3')->store('public/uploads'));
+        }
       }
+      $path = implode(', ', [$path_1, $path_2, $path_3]);
+      $anggota->foto_sertifikasi = $path;
     }
 
     if (strtolower($request->query('j')) == 'atlet') {
@@ -101,21 +125,48 @@ class AnggotaController extends Controller
     $anggota->tanggal_lahir = $request->tanggal_lahir;
 
     if ($anggota->jenis == 'pelatih') {
-      $anggota->nomor_sertifikasi = $request->nomor_sertifikasi;
-      if ($request->file('foto_sertifikasi')) {
+      // nomor sertifikasi
+      $anggota->nomor_sertifikasi = implode(', ', [
+        $request->nomor_sertifikasi_1 ?? null,
+        $request->nomor_sertifikasi_2 ?? null,
+        $request->nomor_sertifikasi_3 ?? null,
+      ]);
+
+      $path_1 = explode(', ', $anggota->foto_sertifikasi)[0];
+      $path_2 = explode(', ', $anggota->foto_sertifikasi)[1];
+      $path_3 = explode(', ', $anggota->foto_sertifikasi)[2];
+
+      if ($request->file('foto_sertifikasi_1') || $request->file('foto_sertifikasi_2') || $request->file('foto_sertifikasi_3')) {
         $request->validate([
-          'foto_sertifikasi' => 'max:2048',
+          'foto_sertifikasi_1' => 'max:2048',
+          'foto_sertifikasi_2' => 'max:2048',
+          'foto_sertifikasi_3' => 'max:2048',
         ], [
-          'foto_sertifikasi.max' => 'File maksimal berukuran 2MB!'
+          'foto_sertifikasi_1.max' => 'File maksimal berukuran 2MB!',
+          'foto_sertifikasi_2.max' => 'File maksimal berukuran 2MB!',
+          'foto_sertifikasi_3.max' => 'File maksimal berukuran 2MB!',
         ]);
-
-        if ($anggota->foto_sertifikasi) {
-          Storage::delete('public/uploads/' . $anggota->foto_sertifikasi);
+        if ($request->file('foto_sertifikasi_1')) {
+          if (!strpos($path_1, 'https')) {
+            Storage::delete('public/uploads/' . $path_1);
+          }
+          $path_1 = basename($request->file('foto_sertifikasi_1')->store('public/uploads'));
         }
-
-        $path = $request->file('foto_sertifikasi')->store('public/uploads');
-        $anggota->foto_sertifikasi = basename($path);
+        if ($request->file('foto_sertifikasi_2')) {
+          if (!strpos($path_2, 'https')) {
+            Storage::delete('public/uploads/' . $path_2);
+          }
+          $path_2 = basename($request->file('foto_sertifikasi_2')->store('public/uploads'));
+        }
+        if ($request->file('foto_sertifikasi_3')) {
+          if (!strpos($path_3, 'https')) {
+            Storage::delete('public/uploads/' . $path_3);
+          }
+          $path_3 = basename($request->file('foto_sertifikasi_3')->store('public/uploads'));
+        }
       }
+      $path = implode(', ', [$path_1, $path_2, $path_3]);
+      $anggota->foto_sertifikasi = $path;
     }
 
     if ($anggota->jenis == 'atlet') {
@@ -134,8 +185,15 @@ class AnggotaController extends Controller
   public function destroy(string $id)
   {
     $anggota = Anggota::find($id);
-    if ($anggota->foto_sertifikasi) {
-      Storage::delete('public/uploads/' . $anggota->foto_sertifikasi);
+    $foto = explode(', ', $anggota->foto_sertifikasi);
+    if (!strpos($foto[0], 'https')) {
+      Storage::delete('public/uploads/' . $foto[0]);
+    }
+    if (!strpos($foto[1], 'https')) {
+      Storage::delete('public/uploads/' . $foto[1]);
+    }
+    if (!strpos($foto[2], 'https')) {
+      Storage::delete('public/uploads/' . $foto[2]);
     }
     Anggota::destroy($id);
     return redirect('/pengurus/kelola/anggota')->with('toast_success', 'Data berhasil dihapus');

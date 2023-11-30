@@ -36,19 +36,28 @@
                             <input name="tanggal_lahir" id="tanggal_lahir" type="date" class="form-control" required
                                 autocomplete="off" value="{{ old('tanggal_lahir') }}">
                         </div>
+
                         <div class="form-group">
-                            <label for="nomor_sertifikasi">Nomor Sertifikasi</label>
-                            <input name="nomor_sertifikasi" id="nomor_sertifikasi" type="text" class="form-control"
-                                required autocomplete="off" value="{{ old('nomor_sertifikasi') }}">
+                            <label>1. Nomor Sertifikasi & Foto Sertifikasi</label>
+                            <input name="nomor_sertifikasi_1" type="text" class="form-control" autocomplete="off"
+                                value="{{ old('nomor_sertifikasi_1') }}">
+                            <input name="foto_sertifikasi_1" type="file" accept="image/*" class="mt-2">
                         </div>
+
                         <div class="form-group">
-                            <label>Foto Sertifikasi</label>
-                            <div class="custom-file">
-                                <label class="custom-file-label" for="foto_sertifikasi">Choose file</label>
-                                <input name="foto_sertifikasi" type="file" class="custom-file-input"
-                                    id="foto_sertifikasi" accept="image/*">
-                            </div>
+                            <label>2. Nomor Sertifikasi & Foto Sertifikasi</label>
+                            <input name="nomor_sertifikasi_2" type="text" class="form-control" autocomplete="off"
+                                value="{{ old('nomor_sertifikasi_2') }}">
+                            <input name="foto_sertifikasi_2" type="file" accept="image/*" class="mt-2">
                         </div>
+
+                        <div class="form-group">
+                            <label>3. Nomor Sertifikasi & Foto Sertifikasi</label>
+                            <input name="nomor_sertifikasi_3" type="text" class="form-control" autocomplete="off"
+                                value="{{ old('nomor_sertifikasi_3') }}">
+                            <input name="foto_sertifikasi_3" type="file" accept="image/*" class="mt-2">
+                        </div>
+
                     </div>
                     <div class="card-footer text-right">
                         <button onclick="sendData()" id="submitButton" class="btn btn-primary">Submit</button>

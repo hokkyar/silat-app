@@ -2,10 +2,10 @@
 @section('title', 'SIMLAT - Login')
 @section('body')
     <section class="section">
-        <div class="container mt-5">
+        <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-                    <h5 class="text-center">Sistem Informasi Manajemen Latihan</h5>
+                    <h5 class="text-center mt-5">Sistem Informasi Manajemen Latihan</h5>
                     <div class="login-brand">
                         <img src="{{ asset('img/logo-koni.ico') }}" alt="logo" width="100" class="">
                     </div>
@@ -38,13 +38,13 @@
                                     </button>
                                 </div>
                             </form>
+                            <div class="text-center">
+                                Copyright &copy; SIMLAT
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>
+                            </div>
                         </div>
-                    </div>
-                    <div class="simple-footer">
-                        Copyright &copy; SIMLAT
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
                     </div>
                 </div>
             </div>
