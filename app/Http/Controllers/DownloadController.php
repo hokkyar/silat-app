@@ -18,8 +18,14 @@ class DownloadController extends Controller
     }
     if (strtolower($request->query('d')) === 'anggota') {
       $data = Cabor::with('anggota')->where('id', $id)->first();
+      $pelatih = $data->anggota->filter(function ($d) {
+        return $d->jenis == 'pelatih';
+      });
+      $atlet = $data->anggota->filter(function ($d) {
+        return $d->jenis == 'atlet';
+      });
       $title = 'Data Pelatih dan Atlet';
-      $pdf = Pdf::loadView('download.anggota', compact('data', 'title'));
+      $pdf = Pdf::loadView('download.anggota', compact('data', 'pelatih', 'atlet', 'title'));
       return $pdf->download('Data Pelatih dan Atlet ' . $data->nama_cabor . '.pdf');
     }
     if (strtolower($request->query('d')) === 'program') {
@@ -36,8 +42,14 @@ class DownloadController extends Controller
     }
     if (strtolower($request->query('d')) === 'inventaris') {
       $data = Cabor::with('inventaris')->where('id', $id)->first();
+      $hp = $data->inventaris->filter(function ($d) {
+        return $d->jenis_aset == 'habis_pakai';
+      });
+      $thp = $data->inventaris->filter(function ($d) {
+        return $d->jenis_aset == 'tidak_habis_pakai';
+      });
       $title = 'Data Inventaris';
-      $pdf = Pdf::loadView('download.inventaris', compact('data', 'title'));
+      $pdf = Pdf::loadView('download.inventaris', compact('data', 'hp', 'thp', 'title'));
       return $pdf->download('Data Inventaris ' . $data->nama_cabor . '.pdf');
     }
     abort(404);

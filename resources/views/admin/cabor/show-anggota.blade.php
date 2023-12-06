@@ -87,7 +87,17 @@
         function viewData(data) {
             $('.modal-body').empty();
             if (data.jenis == 'pelatih') {
-                const fotoSertifikasi = '{{ asset('storage/uploads/') }}' + '/' + data.foto_sertifikasi;
+                // console.log(data.foto_sertifikasi)
+                // const fotoSertifikasi = '{{ asset('storage/uploads/') }}' + '/' + data.foto_sertifikasi;
+                const fotoSertifikasi = data.foto_sertifikasi.split(', ');
+                const pic_1 = fotoSertifikasi[0].includes('https') ? fotoSertifikasi[0] :
+                    `{{ asset('storage/uploads') }}/${fotoSertifikasi[0]}`;
+                const pic_2 = fotoSertifikasi[1].includes('https') ? fotoSertifikasi[1] :
+                    `{{ asset('storage/uploads') }}/${fotoSertifikasi[1]}`;
+                const pic_3 = fotoSertifikasi[2].includes('https') ? fotoSertifikasi[2] :
+                    `{{ asset('storage/uploads') }}/${fotoSertifikasi[2]}`;
+                const nomorSertifikasi = data.nomor_sertifikasi.split(', ');
+
                 $('.modal-body').append(`
               <table style="font-size: 18px;">
                   <tr>
@@ -101,16 +111,28 @@
                       <td>${data.tempat_lahir}, ${data.tanggal_lahir}</td>
                   </tr>
                   <tr>
-                      <td>Nomor Sertifikasi</td>
+                      <td>Nomor Sertifikasi 1</td>
                       <td style="padding: 0 10px;">:</td>
-                      <td>${data.nomor_sertifikasi}</td>
+                      <td>${nomorSertifikasi[0] ? nomorSertifikasi[0] : '-'}</td>
+                  </tr>
+                  <tr>
+                      <td>Nomor Sertifikasi 2</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${nomorSertifikasi[1] ? nomorSertifikasi[1] : '-'}</td>
+                  </tr>
+                  <tr>
+                      <td>Nomor Sertifikasi 3</td>
+                      <td style="padding: 0 10px;">:</td>
+                      <td>${nomorSertifikasi[2] ? nomorSertifikasi[2] : '-'}</td>
                   </tr>
                   <tr>
                       <td>Foto Sertifikasi</td>
                       <td style="padding: 0 10px;">:</td>
                   </tr>
               </table>
-              <img class="rounded my-3" style="max-width: 350px;" src="${fotoSertifikasi}">
+              <img class="rounded my-3 d-inline-block" style="max-width: 200px;" src="${pic_1}">
+              <img class="rounded my-3 d-inline-block mx-3" style="max-width: 200px;" src="${pic_2}">
+              <img class="rounded my-3 d-inline-block" style="max-width: 200px;" src="${pic_3}">
             `)
             } else {
                 $('.modal-body').append(`

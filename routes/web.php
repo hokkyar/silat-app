@@ -11,6 +11,7 @@ use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StrukturController;
+use App\Models\Cabor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
   return redirect()->route('page.login');
 });
+
 Route::get('/login', [AuthController::class, 'login_pages'])->name('page.login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

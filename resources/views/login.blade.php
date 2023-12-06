@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('title', 'SIMLAT - Login')
 @section('body')
-    <section class="section">
+    <style>
+        .bg-img {
+            background-image: url('https://konibuleleng.or.id/assets/home/img/bg_image_1.jpg');
+            background-size: cover;
+            backdrop-filter: blur(8px);
+        }
+    </style>
+    <section class="section bg-img">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
