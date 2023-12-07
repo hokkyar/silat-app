@@ -40,7 +40,7 @@
             <th>No</th>
             <th>Nama</th>
             <th>Tempat/Tgl Lahir</th>
-            <th>Status</th>
+            <th>Nomor Sertifikasi</th>
         </tr>
     </thead>
     <tbody>
@@ -54,7 +54,7 @@
                 <td>
                     {{ $item->tempat_lahir . ', ' . $item->tanggal_lahir }}
                 </td>
-                <td>Aktif</td>
+                <td>{{ $item->nomor_sertifikasi }}</td>
             </tr>
         @endforeach
     </tbody>
@@ -68,7 +68,7 @@
             <th>Nama</th>
             <th>Tempat, Tgl Lahir</th>
             <th>Sekolah/PT</th>
-            <th>Status</th>
+            <th>Nomor KTA</th>
         </tr>
     </thead>
     <tbody>
@@ -81,7 +81,7 @@
                 <td>{{ $item->nama }}</td>
                 <td> {{ $item->tempat_lahir . ', ' . $item->tanggal_lahir }}</td>
                 <td>{{ Str::title($item->sekolah_pt) }}</td>
-                <td>Aktif</td>
+                <td>{{ $item->nomor_kta }}</td>
             </tr>
         @endforeach
     </tbody>
